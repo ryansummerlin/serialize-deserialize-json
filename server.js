@@ -11,6 +11,9 @@ const server = http.createServer((req, res) => {
   req.on("end", () => {
     // Parse the body of the request as JSON if Content-Type header is
       // application/json
+    if (req.headers['content-type'] === 'application/json') {
+      return JSON.parse(reqBody);
+    }
     // Parse the body of the request as x-www-form-urlencoded if Content-Type
       // header is x-www-form-urlencoded
     if (reqBody) {
@@ -33,9 +36,10 @@ const server = http.createServer((req, res) => {
     };
 
     // Return the `resBody` object as JSON in the body of the response
+    return JSON.stringify(resBody);
   });
 });
 
-const port = 5000;
+const port = 5001;
 
 server.listen(port, () => console.log('Server is listening on port', port));
